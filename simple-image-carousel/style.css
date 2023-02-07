@@ -1,0 +1,9 @@
+.slide-img {
+    display: none;
+    width: 450px;
+    height: 450px;
+}
+    
+.slide-img.active {
+    display: block;
+}
