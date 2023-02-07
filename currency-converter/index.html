@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Convertisseur de devise</h2>
+    <form>
+      <label for="amount">Montant :</label>
+      <input type="number" id="amount" name="amount">
+  
+      <label for="from">De :</label>
+      <select id="from" name="from">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+      </select>
+  
+      <label for="to">Vers :</label>
+      <select id="to" name="to">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+      </select>
+  
+      <button type="submit">Convertir</button>
+    </form>
+  
+    <p id="result">Résultat :</p>
+  </body>
+<script src="main.js"></script>
+</html>
