@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz à choix multiple</title>
+</head>
+<body>
+  <h1>Quiz à choix multiple</h1>
+
+  <!-- Question 1 -->
+  <p>Pourquoi l'anonymat est important sur internet ?</p>
+  <form>
+    <input type="radio" class="anonymat" name="private" value="private">
+    <label for="private">Car la vie privée appartient à chacun</label><br>
+    
+    <input type="radio" class="anonymat" name="dontcare" value="dontcare">
+    <label for="dontcare">M'en fou j'ai rien à cacher</label><br>
+  </form>
+
+  <!-- Question 2 -->
+  <p>Quel est le port le plus fréquent pour se connecter en ssh ?</p>
+  <form>
+    <input type="radio" class="port" name="22" value="22">
+    <label for="22">22</label><br>
+    
+    <input type="radio" class="port1" name="9001" value="9001">
+    <label for="9001">9001</label><br>
+  </form>
+
+  <!-- Question 3 -->
+
+  <p>Quel est l'objectif principal de la cybersécurité ?</p>
+  <form>
+    <input type="radio" class="cyber" name="protection" value="protection">
+    <label for="protection">Protéger les informations confidentielles et les systèmes informatiques des attaques en ligne</label><br>
+
+    <input type="radio" class="cyber" name="hacking" value="hacking">
+    <label for="hacking">Favoriser les activités illégales en ligne</label><br>
+  </form>
+
+    <!-- Question 4 -->
+    <p>Quel est l'outil de scan le plus utiliser en cybersécurité ?</p>
+    <form>
+      <input type="radio" class="tool" name="nmap" value="nmap">
+      <label for="nmap">Nmap</label><br>
+  
+      <input type="radio" class="tool" name="nessus" value="nessus">
+      <label for="nessus">Nessus</label><br>
+    </form>
+
+  <button id="submit">Soumettre</button>
+<script src="main.js"></script>
+</body>
+</html>
