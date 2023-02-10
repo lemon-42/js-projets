@@ -3,9 +3,12 @@ const app = express();
 const upload = require('express-fileupload');
 const fs = require('fs');
 const path = require('path');
+const bodyParser = require('body-parser');
 const port = 3000;
 
 app.use(upload());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
@@ -33,10 +36,11 @@ app.get('/file', (req,res) => {
 })
 
 app.post('/delete', (req,res) => {
-    // if the user click on the delete button in the table, the file will be deleted
+    // get the name of the file to delete
     let filename = req.body.filename;
-    let filePath = path.join(__dirname, 'storage', filename);
-
+    // create the path to the file
+    let filePath = path.join(__dirname, '/storage', filename);
+    // delete the file
     fs.unlink(filePath, (err) => {
         if (err) {
             console.log(err)
