@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Live Chat</title>
+  </head>
+  <body>
+    <div class="chat-container">
+        <div class="chat-header">
+          <h1>Live Chat</h1>
+        </div>
+        <div class="chat-messages"></div>
+        <div class="chat-form-container">
+          <form id="username-form">
+            <input id="username" type="text" placeholder="Enter username">
+            <button class="btn">Join Chat</button>
+          </form>
+          <form id="chat-form" style="display: none;">
+            <input id="message" type="text" placeholder="Enter message">
+            <button class="btn">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+<script>
+const socket = io();
+const chatMessages = document.querySelector('.chat-messages');
+const usernameForm = document.getElementById('username-form');
+const chatForm = document.getElementById('chat-form');
+const messageInput = document.getElementById('message');
+let username = '';
+
+usernameForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const usernameInput = document.getElementById('username');
+  username = usernameInput.value.trim();
+  if (username) {
+    usernameForm.style.display = 'none';
+    chatForm.style.display = 'block';
+    messageInput.focus();
+  }
+});
+
+chatForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const message = messageInput.value.trim();
+  if (message) {
+    const messageData = {
+      username: username,
+      text: message,
+      time: new Date().toLocaleTimeString()
+    };
+    socket.emit('message', messageData);
+    messageInput.value = '';
+    messageInput.focus();
+  }
+});
+
+socket.on('message', messageData => {
+  const div = document.createElement('div');
+  div.classList.add('message');
+  div.innerHTML = `<p class="meta">${messageData.username} say : ${messageData.text} at ${messageData.time}</p>`;
+  chatMessages.appendChild(div);
+});
+</script>
+</body>
