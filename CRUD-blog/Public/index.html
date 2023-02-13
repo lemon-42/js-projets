@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mon blog</title>
+  </head>
+  <body>
+    <h1>Mon blog</h1>
+    
+    <form id="article-form">
+      <label for="title-input">Titre :</label>
+      <input id="title-input" type="text" name="title">
+      <br>
+      <label for="content-input">Contenu :</label>
+      <textarea id="content-input" name="content"></textarea>
+      <br>
+      <button id="submit-button" type="submit">Envoyer</button>
+      <button id="update-button" type="submit">Mettre à jour</button>
+    </form>
+    
+    <ul id="article-list"></ul>
+    <p id="article-content"></p>
+    
+    <script src="app.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    socket.on('articleAdded', article => {
+    const articleList = document.getElementById('article-list');
+    const li = document.createElement('li');
+    li.dataset.articleId = article.id;
+    const title = document.createElement('h2');
+    title.textContent = article.title;
+    const content = document.createElement('p');
+    content.textContent = article.content;
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Edit';
+    editButton.addEventListener('click', () => {
+        const titleInput = document.getElementById('title-input');
+        titleInput.value = article.title;
+        const contentInput = document.getElementById('content-input');
+        contentInput.value = article.content;
+        const updateButton = document.getElementById('update-button');
+        updateButton.dataset.articleId = article.id;
+    });
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', () => {
+        deleteArticle(`/articles/${article.id}`);
+        socket.emit('articleDeleted', article.id)
+    });
+    li.appendChild(title);
+    li.appendChild(content);
+    li.appendChild(editButton);
+    li.appendChild(deleteButton);
+    articleList.appendChild(li);
+
+    socket.emit('loadArticle');
+});
+
+
+socket.on('articleUpdated', article => {
+const articleList = document.getElementById('article-list');
+    const li = articleList.querySelector(`[data-article-id="${article.id}"]`);
+    li.querySelector('h2').textContent = article.title;
+    li.querySelector('p').textContent = article.content;
+});
+
+socket.on('articleDeleted', articleId => {
+    const articleList = document.getElementById('article-list');
+    const li = articleList.querySelector(`[data-article-id="${articleId}"]`);
+    articleList.removeChild(li);
+});
+
+  </script>
+  </body>
+</html>
