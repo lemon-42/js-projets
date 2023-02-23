@@ -17,23 +17,17 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 // route
 app.post('/upload', upload.single('file'), (req,res) => {
 
     res.set('Content-Type', 'image/jpeg');
 
-    // get the file name in the header
-    const filename = req.get('x-filename');
+    const filename = req.file.originalname;
 
     console.log(`File ${filename} uploaded successfully!`);
 
     if (filename) {
-        console.log(`File ${filename} uploaded successfully!`);
-        const fileUrl = `http://localhost:${port}/uploads/${filename}`;
-        res.json({ filename, url: fileUrl })
+        res.send(`File ${filename} uploaded successfully!`);
     } else {
         console.log('No filename provided in the header');
         res.status(400).send('No filename provided in the header');
