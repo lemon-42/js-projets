@@ -8,6 +8,7 @@ const port = 3000;
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 io.on('connection', (socket) => {  
     socket.on('articleUpdated', (article) => {
@@ -26,6 +27,19 @@ io.on('connection', (socket) => {
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
+
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/Public/login.html');
+})
+
+app.post('/login', (req, res) => {
+    const user = req.body;
+    if (user.username === 'admin' && user.password === 'admin') {
+        res.redirect('/')
+    } else {
+        res.status(401).send('Invalid username or password');
+    }
+})
 
 app.get('/articles', (req, res) => {
     res.sendFile(__dirname + '/Public/articles.json');
@@ -99,5 +113,5 @@ app.delete('/articles/:id', (req, res) => {
 });
 
 server.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`Example app listening at http://localhost:${port}/login`)
 })
